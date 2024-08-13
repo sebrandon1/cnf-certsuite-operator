@@ -13,8 +13,10 @@ import (
 const (
 	// Be careful when changing this SA name.
 	// 1. It must match the flag --extra-service-accounts in "make bundle".
-	// 2. The prefix is "cnf-certsuite-". It should match the field namePrefix field in config/default/kustomization.yaml.
-	clusterAccessServiceAccountName = "cnf-certsuite-cluster-access"
+	// 2. The prefix is "certsuite-". It should match the field namePrefix field in config/default/kustomization.yaml.
+	clusterAccessServiceAccountName = "certsuite-cluster-access"
+
+	certsuiteContainerImage = "quay.io/redhat-best-practices-for-k8s/certsuite:unstable"
 )
 
 func New(options ...func(*corev1.Pod) error) (*corev1.Pod, error) {
@@ -73,7 +75,7 @@ func newInitialJobPod() *corev1.Pod {
 				},
 				{
 					Name:    definitions.CnfCertSuiteContainerName,
-					Image:   "quay.io/testnetworkfunction/cnf-certification-test:unstable",
+					Image:   certsuiteContainerImage,
 					Command: []string{"certsuite"},
 					Args: []string{"run", "--output-dir", definitions.CnfCertSuiteResultsFolder,
 						"--config-file", definitions.CnfCertSuiteConfigFilePath,
