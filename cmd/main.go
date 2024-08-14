@@ -153,11 +153,17 @@ func main() {
 		os.Exit(1)
 	}
 
-	if err = (&controller.CnfCertificationSuiteRunReconciler{
+	r := &controller.CnfCertificationSuiteRunReconciler{
 		Client: mgr.GetClient(),
 		Scheme: mgr.GetScheme(),
-	}).SetupWithManager(mgr); err != nil {
+	}
+	if err = r.SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "CnfCertificationSuiteRun")
+		os.Exit(1)
+	}
+	consolePluginRemovalDone := make(chan error)
+	if err := r.HandleConsolePlugin(consolePluginRemovalDone); err != nil {
+		setupLog.Error(err, "error has occurred while handling console plugin")
 		os.Exit(1)
 	}
 	if os.Getenv("ENABLE_WEBHOOKS") != "false" {
@@ -180,6 +186,12 @@ func main() {
 	setupLog.Info("starting manager")
 	if err := mgr.Start(ctrl.SetupSignalHandler()); err != nil {
 		setupLog.Error(err, "problem running manager")
+		os.Exit(1)
+	}
+
+	// Wait for openshift's console plugin removal procedure to finish.
+	if err := <-consolePluginRemovalDone; err != nil {
+		setupLog.Error(err, "failed to remove openshift console plugin resources")
 		os.Exit(1)
 	}
 }
