@@ -6,16 +6,16 @@ metadata:
       [
         {
           "apiVersion": "best-practices-for-k8s.openshift.io/v1alpha1",
-          "kind": "CnfCertificationSuiteRun",
+          "kind": "CertsuiteRun",
           "metadata": {
             "labels": {
               "app.kubernetes.io/created-by": "certsuite-operator",
-              "app.kubernetes.io/instance": "cnfcertificationsuiterun-sample",
+              "app.kubernetes.io/instance": "certsuiterun-sample",
               "app.kubernetes.io/managed-by": "kustomize",
-              "app.kubernetes.io/name": "cnfcertificationsuiterun",
+              "app.kubernetes.io/name": "certsuiterun",
               "app.kubernetes.io/part-of": "certsuite-operator"
             },
-            "name": "cnfcertificationsuiterun-sample",
+            "name": "certsuiterun-sample",
             "namespace": "certsuite-operator"
           },
           "spec": {
@@ -41,11 +41,11 @@ spec:
   apiservicedefinitions: {}
   customresourcedefinitions:
     owned:
-    - description: CnfCertificationSuiteRun is the Schema for the cnfcertificationsuiteruns
+    - description: CertsuiteRun is the Schema for the certsuiteruns
         API
       displayName: Cnf Certification Suite Run
-      kind: CnfCertificationSuiteRun
-      name: cnfcertificationsuiteruns.best-practices-for-k8s.openshift.io
+      kind: CertsuiteRun
+      name: certsuiteruns.best-practices-for-k8s.openshift.io
       version: v1alpha1
   description: Deploys Red Hat's Best Practices for Kubernetes Certification Suite
     Pod to run the Certification Test Suite on target resources.
@@ -273,7 +273,7 @@ spec:
         - apiGroups:
           - best-practices-for-k8s.openshift.io
           resources:
-          - cnfcertificationsuiteruns
+          - certsuiteruns
           verbs:
           - create
           - delete
@@ -285,13 +285,13 @@ spec:
         - apiGroups:
           - best-practices-for-k8s.openshift.io
           resources:
-          - cnfcertificationsuiteruns/finalizers
+          - certsuiteruns/finalizers
           verbs:
           - update
         - apiGroups:
           - best-practices-for-k8s.openshift.io
           resources:
-          - cnfcertificationsuiteruns/status
+          - certsuiteruns/status
           verbs:
           - get
           - patch
@@ -325,7 +325,7 @@ spec:
     containerPort: 443
     deploymentName: certsuite-controller-manager
     failurePolicy: Fail
-    generateName: vcnfcertificationsuiterun.kb.io
+    generateName: vcertsuiterun.kb.io
     rules:
     - apiGroups:
       - best-practices-for-k8s.openshift.io
@@ -335,8 +335,8 @@ spec:
       - CREATE
       - UPDATE
       resources:
-      - cnfcertificationsuiteruns
+      - certsuiteruns
     sideEffects: None
     targetPort: 9443
     type: ValidatingAdmissionWebhook
-    webhookPath: /validate-best-practices-for-k8s-openshift-io-v1alpha1-cnfcertificationsuiterun
+    webhookPath: /validate-best-practices-for-k8s-openshift-io-v1alpha1-certsuiterun

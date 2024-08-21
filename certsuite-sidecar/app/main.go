@@ -36,7 +36,7 @@ func handleClaimFile(k8sClient client.Client) {
 	claimFilePath := claimFolder + "/" + claimFileName
 
 	logrus.Infof("Claim file: %v", claimFilePath)
-	logrus.Infof("CnfCertificationSuiteRun CR: %s/%s", namespace, runCRname)
+	logrus.Infof("CertsuiteRun CR: %s/%s", namespace, runCRname)
 
 	for {
 		_, err := os.Stat(claimFilePath)
@@ -62,8 +62,8 @@ func handleClaimFile(k8sClient client.Client) {
 			logrus.Fatalf("Failed to unmarshal claim json: %v", err)
 		}
 
-		// Get the CnfCertificationSuiteRun CR
-		runCR := cnfcertificationsv1alpha1.CnfCertificationSuiteRun{}
+		// Get the CertsuiteRun CR
+		runCR := cnfcertificationsv1alpha1.CertsuiteRun{}
 		err = k8sClient.Get(context.TODO(),
 			types.NamespacedName{
 				Name:      runCRname,
@@ -71,17 +71,17 @@ func handleClaimFile(k8sClient client.Client) {
 			&runCR)
 
 		if err != nil {
-			logrus.Fatalf("Failed to get CnfCertificationSuiteRun CR %s (ns %s)", runCRname, namespace)
+			logrus.Fatalf("Failed to get CertsuiteRun CR %s (ns %s)", runCRname, namespace)
 		}
 
 		cnfcertsuitereport.SetRunCRStatus(&runCR, &claimContent)
 
 		err = k8sClient.Status().Update(context.TODO(), &runCR)
 		if err != nil {
-			logrus.Fatalf("Failed to update CnfCertificationSuiteRun.Status object object: %v", err)
+			logrus.Fatalf("Failed to update CertsuiteRun.Status object object: %v", err)
 		}
 
-		logrus.Infof("CnfCertificationSuiteRun CR's status updated successfully with results:\n%v", runCR.Status.Report.Results)
+		logrus.Infof("CertsuiteRun CR's status updated successfully with results:\n%v", runCR.Status.Report.Results)
 		break
 	}
 }
@@ -91,7 +91,7 @@ func handleClaimFile(k8sClient client.Client) {
 //
 // The sidecar will wait for TNF_CNF_CERT_TIMEOUT secs until the claim.json output is present in a
 // shared volume folder. Then it will parse it to get the list of test cases
-// results, and creates the CR CnfCertificationSuiteReport
+// results, and creates the CR CertsuiteReport
 func main() {
 	scheme := runtime.NewScheme()
 	err := clientgoscheme.AddToScheme(scheme)

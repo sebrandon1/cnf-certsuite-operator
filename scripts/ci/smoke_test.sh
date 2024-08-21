@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 # This is a very simple functional test the controller and the expected
-# CnfCertificationSuiteReport CR that should be generated.
+# CertsuiteReport CR that should be generated.
 #
 # Applies the CnfCertificatioSuiteRun sample in config/samples along with its
 # related configmap and (preflight) secret. The script waits for the field
@@ -31,7 +31,7 @@ checkStatusPhase() {
     endtime=$(date -ud "$runtime" +%s)
 
     while [[ $(date -u +%s) -le $endtime ]]; do
-        actual_phase=$(oc get cnfcertificationsuiteruns -n certsuite-operator cnfcertificationsuiterun-sample -o json | jq -r '.status.phase')
+        actual_phase=$(oc get certsuiteruns -n certsuite-operator certsuiterun-sample -o json | jq -r '.status.phase')
         if [ "$actual_phase" == "$expected_phase" ]; then
             echo "Phase ${expected_phase} found!"
             return 0
@@ -46,14 +46,14 @@ checkStatusPhase() {
 # Load samples, patching the kustomization.yaml to include the configmap and the preflight dockerconfig.
 make deploy-samples
 
-# Wait 2mins for the CnfCertificationSuiteRun CR's status.phase to be CertSuiteFinished.
+# Wait 2mins for the CertsuiteRun CR's status.phase to be CertSuiteFinished.
 checkStatusPhase 5 CertSuiteFinished 2
 
 # Disable command expansion to avoid output mangling.
 set +o xtrace
 
 # Save the Run CR in JSON.
-crJson=$(oc get cnfcertificationsuiterun -n "${CNF_CERTSUITE_OPERATOR_NAMESPACE}" cnfcertificationsuiterun-sample -o json)
+crJson=$(oc get certsuiterun -n "${CNF_CERTSUITE_OPERATOR_NAMESPACE}" certsuiterun-sample -o json)
 
 # Show the Run CR for debugging purposes.
 echo "$crJson" | jq

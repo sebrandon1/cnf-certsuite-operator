@@ -10,9 +10,9 @@ webhooks:
     service:
       name: webhook-service
       namespace: system
-      path: /validate-best-practices-for-k8s-openshift-io-v1alpha1-cnfcertificationsuiterun
+      path: /validate-best-practices-for-k8s-openshift-io-v1alpha1-certsuiterun
   failurePolicy: Fail
-  name: vcnfcertificationsuiterun.kb.io
+  name: vcertsuiterun.kb.io
   rules:
   - apiGroups:
     - best-practices-for-k8s.openshift.io
@@ -22,5 +22,5 @@ webhooks:
     - CREATE
     - UPDATE
     resources:
-    - cnfcertificationsuiteruns
+    - certsuiteruns
   sideEffects: None

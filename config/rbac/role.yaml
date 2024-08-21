@@ -61,7 +61,7 @@ rules:
 - apiGroups:
   - best-practices-for-k8s.openshift.io
   resources:
-  - cnfcertificationsuiteruns
+  - certsuiteruns
   verbs:
   - create
   - delete
@@ -73,13 +73,13 @@ rules:
 - apiGroups:
   - best-practices-for-k8s.openshift.io
   resources:
-  - cnfcertificationsuiteruns/finalizers
+  - certsuiteruns/finalizers
   verbs:
   - update
 - apiGroups:
   - best-practices-for-k8s.openshift.io
   resources:
-  - cnfcertificationsuiteruns/status
+  - certsuiteruns/status
   verbs:
   - get
   - patch

@@ -47,8 +47,8 @@ import (
 
 var sideCarImage string
 
-// CnfCertificationSuiteRunReconciler reconciles a CnfCertificationSuiteRun object
-type CnfCertificationSuiteRunReconciler struct {
+// CertsuiteRunReconciler reconciles a CertsuiteRun object
+type CertsuiteRunReconciler struct {
 	client.Client
 	Scheme *runtime.Scheme
 }
@@ -67,9 +67,9 @@ const (
 	defaultCnfCertSuiteTimeout = time.Hour
 )
 
-// +kubebuilder:rbac:groups=best-practices-for-k8s.openshift.io,namespace=certsuite-operator,resources=cnfcertificationsuiteruns,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=best-practices-for-k8s.openshift.io,namespace=certsuite-operator,resources=cnfcertificationsuiteruns/status,verbs=get;update;patch
-// +kubebuilder:rbac:groups=best-practices-for-k8s.openshift.io,namespace=certsuite-operator,resources=cnfcertificationsuiteruns/finalizers,verbs=update
+// +kubebuilder:rbac:groups=best-practices-for-k8s.openshift.io,namespace=certsuite-operator,resources=certsuiteruns,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=best-practices-for-k8s.openshift.io,namespace=certsuite-operator,resources=certsuiteruns/status,verbs=get;update;patch
+// +kubebuilder:rbac:groups=best-practices-for-k8s.openshift.io,namespace=certsuite-operator,resources=certsuiteruns/finalizers,verbs=update
 
 // +kubebuilder:rbac:groups="",namespace=certsuite-operator,resources=pods,verbs=get;list;watch;create;update;patch;delete
 // +kubebuilder:rbac:groups="",namespace=certsuite-operator,resources=secrets;configMaps,verbs=get;list;watch
@@ -87,15 +87,15 @@ func ignoreUpdatePredicate() predicate.Predicate {
 	}
 }
 
-// Helper method that updates the status of the CnfCertificationSuiteRun CR. It uses
+// Helper method that updates the status of the CertsuiteRun CR. It uses
 // the reconciler's client to Get an updated object first using the namespacedName fields.
 // Then it calls the statusSetterFn that should update the required fields and finally
 // calls de client's Update function to upload the updated object to the cluster.
-func (r *CnfCertificationSuiteRunReconciler) updateStatus(
+func (r *CertsuiteRunReconciler) updateStatus(
 	namespacedName types.NamespacedName,
-	statusSetterFn func(currStatus *cnfcertificationsv1alpha1.CnfCertificationSuiteRunStatus),
+	statusSetterFn func(currStatus *cnfcertificationsv1alpha1.CertsuiteRunStatus),
 ) error {
-	runCR := cnfcertificationsv1alpha1.CnfCertificationSuiteRun{}
+	runCR := cnfcertificationsv1alpha1.CertsuiteRun{}
 	retryErr := retry.RetryOnConflict(retry.DefaultRetry, func() error {
 		err := r.Get(context.TODO(), namespacedName, &runCR)
 		if err != nil {
@@ -114,16 +114,16 @@ func (r *CnfCertificationSuiteRunReconciler) updateStatus(
 	})
 
 	if retryErr != nil {
-		logger.Errorf("Failed to update CnfCertificationSuiteRun's %s status after retries: %v", namespacedName, retryErr)
+		logger.Errorf("Failed to update CertsuiteRun's %s status after retries: %v", namespacedName, retryErr)
 		return retryErr
 	}
 
 	return nil
 }
 
-// // Updates CnfCertificationSuiteRun.Status.Phase corresponding to a given status
-func (r *CnfCertificationSuiteRunReconciler) updateStatusPhase(namespacedName types.NamespacedName, phase cnfcertificationsv1alpha1.StatusPhase) error {
-	return r.updateStatus(namespacedName, func(status *cnfcertificationsv1alpha1.CnfCertificationSuiteRunStatus) {
+// // Updates CertsuiteRun.Status.Phase corresponding to a given status
+func (r *CertsuiteRunReconciler) updateStatusPhase(namespacedName types.NamespacedName, phase cnfcertificationsv1alpha1.StatusPhase) error {
+	return r.updateStatus(namespacedName, func(status *cnfcertificationsv1alpha1.CertsuiteRunStatus) {
 		status.Phase = phase
 	})
 }
@@ -137,7 +137,7 @@ func getJobRunTimeThreshold(timeoutStr string) time.Duration {
 	return jobRunTimeThreshold
 }
 
-func (r *CnfCertificationSuiteRunReconciler) waitForCertSuitePodToComplete(certSuitePodNamespacedName types.NamespacedName, timeOut time.Duration) (exitStatusCode int32, err error) {
+func (r *CertsuiteRunReconciler) waitForCertSuitePodToComplete(certSuitePodNamespacedName types.NamespacedName, timeOut time.Duration) (exitStatusCode int32, err error) {
 	for startTime := time.Now(); time.Since(startTime) < timeOut; {
 		certSuitePod := corev1.Pod{}
 		err = r.Get(context.TODO(), certSuitePodNamespacedName, &certSuitePod)
@@ -176,7 +176,7 @@ func getCertSuiteContainerExitStatus(certSuitePod *corev1.Pod) (int32, error) {
 	return 0, fmt.Errorf("failed to get cert suite exit status: container not found in pod %s (ns %s)", certSuitePod.Name, certSuitePod.Namespace)
 }
 
-func (r *CnfCertificationSuiteRunReconciler) handleEndOfCnfCertSuiteRun(runCrName, certSuitePodName, namespace, reqTimeout string) {
+func (r *CertsuiteRunReconciler) handleEndOfCnfCertSuiteRun(runCrName, certSuitePodName, namespace, reqTimeout string) {
 	certSuitePodNamespacedName := types.NamespacedName{Name: certSuitePodName, Namespace: namespace}
 	runCrNamespacedName := types.NamespacedName{Name: runCrName, Namespace: namespace}
 
@@ -189,10 +189,10 @@ func (r *CnfCertificationSuiteRunReconciler) handleEndOfCnfCertSuiteRun(runCrNam
 	// cnf-cert-job has terminated - checking exit status of cert suite
 	if certSuiteExitStatusCode == 0 {
 		logger.Info("CNF Cert job has finished running.")
-		err = r.updateStatusPhase(runCrNamespacedName, definitions.CnfCertificationSuiteRunStatusPhaseJobFinished)
+		err = r.updateStatusPhase(runCrNamespacedName, definitions.CertsuiteRunStatusPhaseJobFinished)
 	} else {
 		logger.Info("CNF Cert job encountered an error. Exit status: ", certSuiteExitStatusCode)
-		err = r.updateStatusPhase(runCrNamespacedName, definitions.CnfCertificationSuiteRunStatusPhaseJobError)
+		err = r.updateStatusPhase(runCrNamespacedName, definitions.CertsuiteRunStatusPhaseJobError)
 	}
 
 	if err != nil {
@@ -203,7 +203,7 @@ func (r *CnfCertificationSuiteRunReconciler) handleEndOfCnfCertSuiteRun(runCrNam
 // Reconcile is part of the main kubernetes reconciliation loop which aims to
 // move the current state of the cluster closer to the desired state.
 // TODO(user): Modify the Reconcile function to compare the state specified by
-// the CnfCertificationSuiteRun object against the actual cluster state, and then
+// the CertsuiteRun object against the actual cluster state, and then
 // perform operations to make the cluster state reflect the state specified by
 // the user.
 //
@@ -211,15 +211,15 @@ func (r *CnfCertificationSuiteRunReconciler) handleEndOfCnfCertSuiteRun(runCrNam
 // - https://pkg.go.dev/sigs.k8s.io/controller-runtime@v0.14.1/pkg/reconcile
 //
 //nolint:funlen
-func (r *CnfCertificationSuiteRunReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
-	logger.Info("Reconciling CnfCertificationSuiteRun CRD.")
+func (r *CertsuiteRunReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
+	logger.Info("Reconciling CertsuiteRun CRD.")
 
 	runCrNamespacedName := types.NamespacedName{Name: req.Name, Namespace: req.Namespace}
-	var runCR cnfcertificationsv1alpha1.CnfCertificationSuiteRun
+	var runCR cnfcertificationsv1alpha1.CertsuiteRun
 	if getErr := r.Get(ctx, req.NamespacedName, &runCR); getErr != nil {
-		logger.Infof("CnfCertificationSuiteRun CR %s (ns %s) not found.", req.Name, req.NamespacedName)
+		logger.Infof("CertsuiteRun CR %s (ns %s) not found.", req.Name, req.NamespacedName)
 		if podName, exist := certificationRuns[runCrNamespacedName]; exist {
-			logger.Infof("CnfCertificationSuiteRun has been deleted. Removing the associated CNF Cert job pod %v", podName)
+			logger.Infof("CertsuiteRun has been deleted. Removing the associated CNF Cert job pod %v", podName)
 			deleteErr := r.Delete(context.TODO(), &corev1.Pod{ObjectMeta: metav1.ObjectMeta{Name: podName, Namespace: req.Namespace}})
 			if deleteErr != nil {
 				logger.Errorf("Failed to remove CNF Cert Job pod %s in namespace %s: %w", req.Name, req.Namespace, deleteErr)
@@ -230,7 +230,7 @@ func (r *CnfCertificationSuiteRunReconciler) Reconcile(ctx context.Context, req 
 	}
 
 	if podName, exist := certificationRuns[runCrNamespacedName]; exist {
-		logger.Infof("There's a certification job pod=%v running already. Ignoring changes in CnfCertificationSuiteRun %v", podName, runCrNamespacedName)
+		logger.Infof("There's a certification job pod=%v running already. Ignoring changes in CertsuiteRun %v", podName, runCrNamespacedName)
 		return ctrl.Result{}, nil
 	}
 
@@ -284,7 +284,7 @@ func (r *CnfCertificationSuiteRunReconciler) Reconcile(ctx context.Context, req 
 		return ctrl.Result{}, nil
 	}
 
-	err = r.updateStatus(runCrNamespacedName, func(status *cnfcertificationsv1alpha1.CnfCertificationSuiteRunStatus) {
+	err = r.updateStatus(runCrNamespacedName, func(status *cnfcertificationsv1alpha1.CertsuiteRunStatus) {
 		status.Phase = cnfcertificationsv1alpha1.StatusPhaseCertSuiteRunning
 		status.CnfCertSuitePodName = &certSuitePodName
 	})
@@ -300,7 +300,7 @@ func (r *CnfCertificationSuiteRunReconciler) Reconcile(ctx context.Context, req 
 	return ctrl.Result{}, nil
 }
 
-func (r *CnfCertificationSuiteRunReconciler) generateSinglePluginResourceObj(filePath, ns string, decoder runtime.Decoder) (client.Object, error) {
+func (r *CertsuiteRunReconciler) generateSinglePluginResourceObj(filePath, ns string, decoder runtime.Decoder) (client.Object, error) {
 	yamlFile, err := os.ReadFile(filePath)
 	if err != nil {
 		logger.Errorf("failed to read plugin resource file: %s, err: %v", filePath, err)
@@ -318,7 +318,7 @@ func (r *CnfCertificationSuiteRunReconciler) generateSinglePluginResourceObj(fil
 	return clientObj, nil
 }
 
-func (r *CnfCertificationSuiteRunReconciler) generatePluginResourcesObjs() ([]client.Object, error) {
+func (r *CertsuiteRunReconciler) generatePluginResourcesObjs() ([]client.Object, error) {
 	var pluginDir = "/plugin"
 
 	// Read all  plugin's resources (written in yaml files)
@@ -348,7 +348,7 @@ func (r *CnfCertificationSuiteRunReconciler) generatePluginResourcesObjs() ([]cl
 	return pluginObjList, nil
 }
 
-func (r *CnfCertificationSuiteRunReconciler) ApplyOperationOnPluginResources(op func(obj client.Object) error) error {
+func (r *CertsuiteRunReconciler) ApplyOperationOnPluginResources(op func(obj client.Object) error) error {
 	// Generate plugin resources as objects
 	pluginObjsList, err := r.generatePluginResourcesObjs()
 	if err != nil {
@@ -367,7 +367,7 @@ func (r *CnfCertificationSuiteRunReconciler) ApplyOperationOnPluginResources(op 
 	return nil
 }
 
-func (r *CnfCertificationSuiteRunReconciler) HandleConsolePlugin(done chan error) error {
+func (r *CertsuiteRunReconciler) HandleConsolePlugin(done chan error) error {
 	// Create console plugin resources
 	err := r.ApplyOperationOnPluginResources(func(obj client.Object) error {
 		return r.Create(context.Background(), obj)
@@ -391,8 +391,8 @@ func (r *CnfCertificationSuiteRunReconciler) HandleConsolePlugin(done chan error
 }
 
 // SetupWithManager sets up the controller with the Manager.
-func (r *CnfCertificationSuiteRunReconciler) SetupWithManager(mgr ctrl.Manager) error {
-	logger.Info("Setting up CnfCertificationSuiteRunReconciler's manager.")
+func (r *CertsuiteRunReconciler) SetupWithManager(mgr ctrl.Manager) error {
+	logger.Info("Setting up CertsuiteRunReconciler's manager.")
 
 	var found bool
 	sideCarImage, found = os.LookupEnv(definitions.SideCarImageEnvVar)
@@ -401,7 +401,7 @@ func (r *CnfCertificationSuiteRunReconciler) SetupWithManager(mgr ctrl.Manager) 
 	}
 
 	return ctrl.NewControllerManagedBy(mgr).
-		For(&cnfcertificationsv1alpha1.CnfCertificationSuiteRun{}).
+		For(&cnfcertificationsv1alpha1.CertsuiteRun{}).
 		WithEventFilter(ignoreUpdatePredicate()).
 		Complete(r)
 }

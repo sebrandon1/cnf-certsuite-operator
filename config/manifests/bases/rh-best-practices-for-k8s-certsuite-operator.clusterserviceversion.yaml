@@ -11,11 +11,10 @@ spec:
   apiservicedefinitions: {}
   customresourcedefinitions:
     owned:
-    - description: CnfCertificationSuiteRun is the Schema for the cnfcertificationsuiteruns
-        API
-      displayName: Cnf Certification Suite Run
-      kind: CnfCertificationSuiteRun
-      name: cnfcertificationsuiteruns.best-practices-for-k8s.openshift.io
+    - description: CertsuiteRun is the Schema for the certsuiteruns API
+      displayName: Certsuite Run
+      kind: CertsuiteRun
+      name: certsuiteruns.best-practices-for-k8s.openshift.io
       version: v1alpha1
   description: Deploys Red Hat's Best Practices for Kubernetes Certification Suite
     Pod to run the Certification Test Suite on target resources.

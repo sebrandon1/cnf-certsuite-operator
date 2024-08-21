@@ -153,12 +153,12 @@ func main() {
 		os.Exit(1)
 	}
 
-	r := &controller.CnfCertificationSuiteRunReconciler{
+	r := &controller.CertsuiteRunReconciler{
 		Client: mgr.GetClient(),
 		Scheme: mgr.GetScheme(),
 	}
 	if err = r.SetupWithManager(mgr); err != nil {
-		setupLog.Error(err, "unable to create controller", "controller", "CnfCertificationSuiteRun")
+		setupLog.Error(err, "unable to create controller", "controller", "CertsuiteRun")
 		os.Exit(1)
 	}
 	consolePluginRemovalDone := make(chan error)
@@ -167,8 +167,8 @@ func main() {
 		os.Exit(1)
 	}
 	if os.Getenv("ENABLE_WEBHOOKS") != "false" {
-		if err = (&cnfcertificationsv1alpha1.CnfCertificationSuiteRun{}).SetupWebhookWithManager(mgr); err != nil {
-			setupLog.Error(err, "unable to create webhook", "webhook", "CnfCertificationSuiteRun")
+		if err = (&cnfcertificationsv1alpha1.CertsuiteRun{}).SetupWebhookWithManager(mgr); err != nil {
+			setupLog.Error(err, "unable to create webhook", "webhook", "CertsuiteRun")
 			os.Exit(1)
 		}
 	}

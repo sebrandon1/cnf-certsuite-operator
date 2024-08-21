@@ -1,11 +1,11 @@
 package definitions
 
 const (
-	CnfCertificationSuiteRunStatusPhaseCertSuiteDeploying     = "CertSuiteDeploying"
-	CnfCertificationSuiteRunStatusPhaseCertSuiteDeployFailure = "CertSuiteDeployFailure"
-	CnfCertificationSuiteRunStatusCertSuiteRunning            = "CertSuiteRunning"
-	CnfCertificationSuiteRunStatusPhaseJobFinished            = "CertSuiteFinished"
-	CnfCertificationSuiteRunStatusPhaseJobError               = "CertSuiteError"
+	CertsuiteRunStatusPhaseCertSuiteDeploying     = "CertSuiteDeploying"
+	CertsuiteRunStatusPhaseCertSuiteDeployFailure = "CertSuiteDeployFailure"
+	CertsuiteRunStatusCertSuiteRunning            = "CertSuiteRunning"
+	CertsuiteRunStatusPhaseJobFinished            = "CertSuiteFinished"
+	CertsuiteRunStatusPhaseJobError               = "CertSuiteError"
 )
 
 const (

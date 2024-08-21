@@ -4,4 +4,4 @@ kind: CustomResourceDefinition
 metadata:
   annotations:
     cert-manager.io/inject-ca-from: CERTIFICATE_NAMESPACE/CERTIFICATE_NAME
-  name: cnfcertificationsuiteruns.best-practices-for-k8s.openshift.io
+  name: certsuiteruns.best-practices-for-k8s.openshift.io

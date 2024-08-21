@@ -87,15 +87,15 @@ func getCnfTargetsFromClaim(claimcontent *claim.Schema) *cnfcertificationsv1alph
 	return &cnf
 }
 
-func New(config *Config) *cnfcertificationsv1alpha1.CnfCertificationSuiteReport {
-	return &cnfcertificationsv1alpha1.CnfCertificationSuiteReport{
+func New(config *Config) *cnfcertificationsv1alpha1.CertsuiteReport {
+	return &cnfcertificationsv1alpha1.CertsuiteReport{
 		OcpVersion:          config.OcpVersion,
 		CnfCertSuiteVersion: config.CnfCertSuiteVersion,
 		CnfTargets:          config.Cnf,
 	}
 }
 
-func SetRunCRStatus(runCR *cnfcertificationsv1alpha1.CnfCertificationSuiteRun, claimSchema *claim.Schema) {
+func SetRunCRStatus(runCR *cnfcertificationsv1alpha1.CertsuiteRun, claimSchema *claim.Schema) {
 	testSuiteResults := &claimSchema.Claim.Results
 	results := []cnfcertificationsv1alpha1.TestCaseResult{}
 	totalTests, passedTests, skippedTests, failedTests, erroredTests := 0, 0, 0, 0, 0
@@ -132,12 +132,12 @@ func SetRunCRStatus(runCR *cnfcertificationsv1alpha1.CnfCertificationSuiteRun, c
 		results = append(results, testCaseResult)
 	}
 
-	runCR.Status.Report = &cnfcertificationsv1alpha1.CnfCertificationSuiteReport{
+	runCR.Status.Report = &cnfcertificationsv1alpha1.CertsuiteReport{
 		OcpVersion:          claimSchema.Claim.Versions.Ocp,
 		CnfCertSuiteVersion: claimSchema.Claim.Versions.Tnf,
 		CnfTargets:          *getCnfTargetsFromClaim(claimSchema),
 		Results:             results,
-		Summary: cnfcertificationsv1alpha1.CnfCertificationSuiteReportStatusSummary{
+		Summary: cnfcertificationsv1alpha1.CertsuiteReportStatusSummary{
 			Total:   totalTests,
 			Passed:  passedTests,
 			Skipped: skippedTests,

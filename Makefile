@@ -203,7 +203,7 @@ deploy: manifests kustomize ## Deploy controller to the K8s cluster specified in
 	cd config/manager \
 	  && $(KUSTOMIZE) edit set image controller=${IMG} \
       && $(KUSTOMIZE) edit add patch --kind Deployment --patch "[{\"op\": \"replace\", \"path\": \"/spec/template/spec/containers/0/env/1\", \"value\": {\"name\": \"SIDECAR_APP_IMG\", \"value\": \"${SIDECAR_IMG}\"} }]"
-	cd config/crd && $(KUSTOMIZE) edit add patch --path patches/cainjection_in_cnfcertificationsuiteruns.yaml
+	cd config/crd && $(KUSTOMIZE) edit add patch --path patches/cainjection_in_certsuiteruns.yaml
 	$(KUSTOMIZE) build config/default/manual-deploy | $(KUBECTL) apply -f -
 	@if oc get pod -A | grep service-ca-operator > /dev/null 2>&1; then \
 		echo "Skipping cert-manager's certificates for console-plugin"; \

@@ -15,7 +15,7 @@ data => preflight_dockerconfig.json: |\n\
 }
 
 map myFirstRun {
-Kind => CnfCertificationSuiteRun
+Kind => CertsuiteRun
 Name => myFirstRun
 
 ConfigMap *--> configMap1
@@ -24,7 +24,7 @@ Labels => "telco && !observability-container-logging"
 }
 
 map mySecondRun {
-Kind => CnfCertificationSuiteRun
+Kind => CertsuiteRun
 Name => mySecondRun
 
 ConfigMap *--> configMap1

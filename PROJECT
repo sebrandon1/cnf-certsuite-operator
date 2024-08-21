@@ -17,7 +17,7 @@ resources:
   controller: true
   domain: openshift.io
   group: best-practices-for-k8s
-  kind: CnfCertificationSuiteRun
+  kind: CertsuiteRun
   path: github.com/redhat-best-practices-for-k8s/certsuite-operator/api/v1alpha1
   version: v1alpha1
   webhooks:

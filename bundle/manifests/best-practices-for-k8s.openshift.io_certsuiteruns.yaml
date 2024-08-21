@@ -4,23 +4,23 @@ metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.15.0
   creationTimestamp: null
-  name: cnfcertificationsuiteruns.best-practices-for-k8s.openshift.io
+  name: certsuiteruns.best-practices-for-k8s.openshift.io
 spec:
   conversion:
     strategy: None
   group: best-practices-for-k8s.openshift.io
   names:
-    kind: CnfCertificationSuiteRun
-    listKind: CnfCertificationSuiteRunList
-    plural: cnfcertificationsuiteruns
-    singular: cnfcertificationsuiterun
+    kind: CertsuiteRun
+    listKind: CertsuiteRunList
+    plural: certsuiteruns
+    singular: certsuiterun
   scope: Namespaced
   versions:
   - additionalPrinterColumns:
     - jsonPath: .metadata.creationTimestamp
       name: Age
       type: date
-    - description: CnfCertificationSuiteRun current status
+    - description: CertsuiteRun current status
       jsonPath: .status.phase
       name: Status
       type: string
@@ -30,7 +30,7 @@ spec:
     name: v1alpha1
     schema:
       openAPIV3Schema:
-        description: CnfCertificationSuiteRun is the Schema for the cnfcertificationsuiteruns
+        description: CertsuiteRun is the Schema for the certsuiteruns
           API
         properties:
           apiVersion:
@@ -51,8 +51,8 @@ spec:
           metadata:
             type: object
           spec:
-            description: CnfCertificationSuiteRunSpec defines the desired state of
-              CnfCertificationSuiteRun
+            description: CertsuiteRunSpec defines the desired state of
+              CertsuiteRun
             properties:
               configMapName:
                 description: ConfigMapName holds the cnf certification suite yaml
@@ -91,8 +91,8 @@ spec:
             - timeout
             type: object
           status:
-            description: CnfCertificationSuiteRunStatus defines the observed state
-              of CnfCertificationSuiteRun
+            description: CertsuiteRunStatus defines the observed state
+              of CertsuiteRun
             properties:
               cnfCertSuitePodName:
                 description: CnfCertSuitePodName holds the name of the pod where the

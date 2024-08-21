@@ -30,7 +30,7 @@ import (
 	cnfcertificationsv1alpha1 "github.com/redhat-best-practices-for-k8s/certsuite-operator/api/v1alpha1"
 )
 
-var _ = Describe("CnfCertificationSuiteRun Controller", func() {
+var _ = Describe("CertsuiteRun Controller", func() {
 	Context("When reconciling a resource", func() {
 		const resourceName = "test-resource"
 
@@ -40,13 +40,13 @@ var _ = Describe("CnfCertificationSuiteRun Controller", func() {
 			Name:      resourceName,
 			Namespace: "default", // TODO(user):Modify as needed
 		}
-		cnfcertificationsuiterun := &cnfcertificationsv1alpha1.CnfCertificationSuiteRun{}
+		certsuiterun := &cnfcertificationsv1alpha1.CertsuiteRun{}
 
 		BeforeEach(func() {
-			By("creating the custom resource for the Kind CnfCertificationSuiteRun")
-			err := k8sClient.Get(ctx, typeNamespacedName, cnfcertificationsuiterun)
+			By("creating the custom resource for the Kind CertsuiteRun")
+			err := k8sClient.Get(ctx, typeNamespacedName, certsuiterun)
 			if err != nil && errors.IsNotFound(err) {
-				resource := &cnfcertificationsv1alpha1.CnfCertificationSuiteRun{
+				resource := &cnfcertificationsv1alpha1.CertsuiteRun{
 					ObjectMeta: metav1.ObjectMeta{
 						Name:      resourceName,
 						Namespace: "default",
@@ -59,16 +59,16 @@ var _ = Describe("CnfCertificationSuiteRun Controller", func() {
 
 		AfterEach(func() {
 			// TODO(user): Cleanup logic after each test, like removing the resource instance.
-			resource := &cnfcertificationsv1alpha1.CnfCertificationSuiteRun{}
+			resource := &cnfcertificationsv1alpha1.CertsuiteRun{}
 			err := k8sClient.Get(ctx, typeNamespacedName, resource)
 			Expect(err).NotTo(HaveOccurred())
 
-			By("Cleanup the specific resource instance CnfCertificationSuiteRun")
+			By("Cleanup the specific resource instance CertsuiteRun")
 			Expect(k8sClient.Delete(ctx, resource)).To(Succeed())
 		})
 		It("should successfully reconcile the resource", func() {
 			By("Reconciling the created resource")
-			controllerReconciler := &CnfCertificationSuiteRunReconciler{
+			controllerReconciler := &CertsuiteRunReconciler{
 				Client: k8sClient,
 				Scheme: k8sClient.Scheme(),
 			}
