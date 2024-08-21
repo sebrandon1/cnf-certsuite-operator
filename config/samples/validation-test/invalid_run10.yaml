@@ -1,6 +1,6 @@
 # Invalid CnfCertificationSuiteRun for testing purposes.
 # Invalidation reason: unsupported loglevel.
-apiVersion: cnf-certifications.redhat.com/v1alpha1
+apiVersion: cnf-certifications.openshift.io/v1alpha1
 kind: CnfCertificationSuiteRun
 metadata:
   labels:

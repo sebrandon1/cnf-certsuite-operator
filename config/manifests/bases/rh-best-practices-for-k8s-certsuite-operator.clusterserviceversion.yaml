@@ -15,7 +15,7 @@ spec:
         API
       displayName: Cnf Certification Suite Run
       kind: CnfCertificationSuiteRun
-      name: cnfcertificationsuiteruns.cnf-certifications.redhat.com
+      name: cnfcertificationsuiteruns.cnf-certifications.openshift.io
       version: v1alpha1
   description: Deploys Red Hat's Best Practices for Kubernetes Certification Suite
     Pod to run the Certification Test Suite on target resources.

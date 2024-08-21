@@ -4,9 +4,9 @@ kind: CustomResourceDefinition
 metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.15.0
-  name: cnfcertificationsuiteruns.cnf-certifications.redhat.com
+  name: cnfcertificationsuiteruns.cnf-certifications.openshift.io
 spec:
-  group: cnf-certifications.redhat.com
+  group: cnf-certifications.openshift.io
   names:
     kind: CnfCertificationSuiteRun
     listKind: CnfCertificationSuiteRunList

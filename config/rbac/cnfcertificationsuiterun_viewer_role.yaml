@@ -12,7 +12,7 @@ metadata:
   name: cnfcertificationsuiterun-viewer-role
 rules:
 - apiGroups:
-  - cnf-certifications.redhat.com
+  - cnf-certifications.openshift.io
   resources:
   - cnfcertificationsuiteruns
   verbs:
@@ -20,7 +20,7 @@ rules:
   - list
   - watch
 - apiGroups:
-  - cnf-certifications.redhat.com
+  - cnf-certifications.openshift.io
   resources:
   - cnfcertificationsuiteruns/status
   verbs:

@@ -1,7 +1,7 @@
 # Invalid CnfCertificationSuiteRun for testing purposes.
 # Invalidation reason: preflightSecretName is an empty string.
 
-apiVersion: cnf-certifications.redhat.com/v1alpha1
+apiVersion: cnf-certifications.openshift.io/v1alpha1
 kind: CnfCertificationSuiteRun
 metadata:
   labels:

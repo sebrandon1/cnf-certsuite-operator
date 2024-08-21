@@ -5,7 +5,7 @@ metadata:
     alm-examples: |-
       [
         {
-          "apiVersion": "cnf-certifications.redhat.com/v1alpha1",
+          "apiVersion": "cnf-certifications.openshift.io/v1alpha1",
           "kind": "CnfCertificationSuiteRun",
           "metadata": {
             "labels": {
@@ -32,7 +32,7 @@ metadata:
       ]
     capabilities: Basic Install
     console.openshift.io/plugins: '["certsuite-plugin"]'
-    createdAt: "2024-08-09T12:07:19Z"
+    createdAt: "2024-08-21T11:21:22Z"
     operators.operatorframework.io/builder: operator-sdk-v1.36.1
     operators.operatorframework.io/project_layout: go.kubebuilder.io/v4
   name: rh-best-practices-for-k8s-certsuite-operator.v0.0.1
@@ -45,7 +45,7 @@ spec:
         API
       displayName: Cnf Certification Suite Run
       kind: CnfCertificationSuiteRun
-      name: cnfcertificationsuiteruns.cnf-certifications.redhat.com
+      name: cnfcertificationsuiteruns.cnf-certifications.openshift.io
       version: v1alpha1
   description: Deploys Red Hat's Best Practices for Kubernetes Certification Suite
     Pod to run the Certification Test Suite on target resources.
@@ -75,6 +75,7 @@ spec:
           - consoleplugins
           verbs:
           - create
+          - delete
         - apiGroups:
           - authentication.k8s.io
           resources:
@@ -237,6 +238,7 @@ spec:
           - services
           verbs:
           - create
+          - delete
         - apiGroups:
           - ""
           resources:
@@ -264,8 +266,12 @@ spec:
           - deployments
           verbs:
           - create
+          - delete
+          - get
+          - list
+          - watch
         - apiGroups:
-          - cnf-certifications.redhat.com
+          - cnf-certifications.openshift.io
           resources:
           - cnfcertificationsuiteruns
           verbs:
@@ -277,13 +283,13 @@ spec:
           - update
           - watch
         - apiGroups:
-          - cnf-certifications.redhat.com
+          - cnf-certifications.openshift.io
           resources:
           - cnfcertificationsuiteruns/finalizers
           verbs:
           - update
         - apiGroups:
-          - cnf-certifications.redhat.com
+          - cnf-certifications.openshift.io
           resources:
           - cnfcertificationsuiteruns/status
           verbs:
@@ -322,7 +328,7 @@ spec:
     generateName: vcnfcertificationsuiterun.kb.io
     rules:
     - apiGroups:
-      - cnf-certifications.redhat.com
+      - cnf-certifications.openshift.io
       apiVersions:
       - v1alpha1
       operations:
@@ -333,4 +339,4 @@ spec:
     sideEffects: None
     targetPort: 9443
     type: ValidatingAdmissionWebhook
-    webhookPath: /validate-cnf-certifications-redhat-com-v1alpha1-cnfcertificationsuiterun
+    webhookPath: /validate-cnf-certifications-openshift-io-v1alpha1-cnfcertificationsuiterun

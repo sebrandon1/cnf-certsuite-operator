@@ -10,12 +10,12 @@ webhooks:
     service:
       name: webhook-service
       namespace: system
-      path: /validate-cnf-certifications-redhat-com-v1alpha1-cnfcertificationsuiterun
+      path: /validate-cnf-certifications-openshift-io-v1alpha1-cnfcertificationsuiterun
   failurePolicy: Fail
   name: vcnfcertificationsuiterun.kb.io
   rules:
   - apiGroups:
-    - cnf-certifications.redhat.com
+    - cnf-certifications.openshift.io
     apiVersions:
     - v1alpha1
     operations:
