@@ -1,7 +1,7 @@
 # Invalid CnfCertificationSuiteRun for testing purposes.
 # Invalidation reason: Secret's 'preflight_dockerconfig.json' field is empty.
 
-apiVersion: cnf-certifications.openshift.io/v1alpha1
+apiVersion: best-practices-for-k8s.openshift.io/v1alpha1
 kind: CnfCertificationSuiteRun
 metadata:
   labels:

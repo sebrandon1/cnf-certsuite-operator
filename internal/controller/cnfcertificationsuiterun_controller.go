@@ -67,9 +67,9 @@ const (
 	defaultCnfCertSuiteTimeout = time.Hour
 )
 
-// +kubebuilder:rbac:groups=cnf-certifications.openshift.io,namespace=certsuite-operator,resources=cnfcertificationsuiteruns,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=cnf-certifications.openshift.io,namespace=certsuite-operator,resources=cnfcertificationsuiteruns/status,verbs=get;update;patch
-// +kubebuilder:rbac:groups=cnf-certifications.openshift.io,namespace=certsuite-operator,resources=cnfcertificationsuiteruns/finalizers,verbs=update
+// +kubebuilder:rbac:groups=best-practices-for-k8s.openshift.io,namespace=certsuite-operator,resources=cnfcertificationsuiteruns,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=best-practices-for-k8s.openshift.io,namespace=certsuite-operator,resources=cnfcertificationsuiteruns/status,verbs=get;update;patch
+// +kubebuilder:rbac:groups=best-practices-for-k8s.openshift.io,namespace=certsuite-operator,resources=cnfcertificationsuiteruns/finalizers,verbs=update
 
 // +kubebuilder:rbac:groups="",namespace=certsuite-operator,resources=pods,verbs=get;list;watch;create;update;patch;delete
 // +kubebuilder:rbac:groups="",namespace=certsuite-operator,resources=secrets;configMaps,verbs=get;list;watch

@@ -1,4 +1,4 @@
-apiVersion: cnf-certifications.openshift.io/v1alpha1
+apiVersion: best-practices-for-k8s.openshift.io/v1alpha1
 kind: CnfCertificationSuiteRun
 metadata:
   labels:

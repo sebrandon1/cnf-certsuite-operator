@@ -2,7 +2,7 @@
 # since it depends on service name and namespace that are out of this kustomize package.
 # It should be run by config/default
 resources:
-- bases/cnf-certifications.openshift.io_cnfcertificationsuiteruns.yaml
+- bases/best-practices-for-k8s.openshift.io_cnfcertificationsuiteruns.yaml
 #+kubebuilder:scaffold:crdkustomizeresource
 
 # [WEBHOOK] To enable webhook, uncomment all the sections with [WEBHOOK] prefix.

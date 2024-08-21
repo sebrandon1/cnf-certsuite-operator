@@ -5,7 +5,7 @@ metadata:
     alm-examples: |-
       [
         {
-          "apiVersion": "cnf-certifications.openshift.io/v1alpha1",
+          "apiVersion": "best-practices-for-k8s.openshift.io/v1alpha1",
           "kind": "CnfCertificationSuiteRun",
           "metadata": {
             "labels": {
@@ -45,7 +45,7 @@ spec:
         API
       displayName: Cnf Certification Suite Run
       kind: CnfCertificationSuiteRun
-      name: cnfcertificationsuiteruns.cnf-certifications.openshift.io
+      name: cnfcertificationsuiteruns.best-practices-for-k8s.openshift.io
       version: v1alpha1
   description: Deploys Red Hat's Best Practices for Kubernetes Certification Suite
     Pod to run the Certification Test Suite on target resources.
@@ -271,7 +271,7 @@ spec:
           - list
           - watch
         - apiGroups:
-          - cnf-certifications.openshift.io
+          - best-practices-for-k8s.openshift.io
           resources:
           - cnfcertificationsuiteruns
           verbs:
@@ -283,13 +283,13 @@ spec:
           - update
           - watch
         - apiGroups:
-          - cnf-certifications.openshift.io
+          - best-practices-for-k8s.openshift.io
           resources:
           - cnfcertificationsuiteruns/finalizers
           verbs:
           - update
         - apiGroups:
-          - cnf-certifications.openshift.io
+          - best-practices-for-k8s.openshift.io
           resources:
           - cnfcertificationsuiteruns/status
           verbs:
@@ -328,7 +328,7 @@ spec:
     generateName: vcnfcertificationsuiterun.kb.io
     rules:
     - apiGroups:
-      - cnf-certifications.openshift.io
+      - best-practices-for-k8s.openshift.io
       apiVersions:
       - v1alpha1
       operations:
@@ -339,4 +339,4 @@ spec:
     sideEffects: None
     targetPort: 9443
     type: ValidatingAdmissionWebhook
-    webhookPath: /validate-cnf-certifications-openshift-io-v1alpha1-cnfcertificationsuiterun
+    webhookPath: /validate-best-practices-for-k8s-openshift-io-v1alpha1-cnfcertificationsuiterun

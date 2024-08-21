@@ -2,7 +2,7 @@
 apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
-  name: cnfcertificationsuiteruns.cnf-certifications.openshift.io
+  name: cnfcertificationsuiteruns.best-practices-for-k8s.openshift.io
 spec:
   conversion:
     strategy: None

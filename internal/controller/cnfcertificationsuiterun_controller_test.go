@@ -193,7 +193,7 @@ func TestCnfCertificationSuiteRunReconciler_updateStatus(t *testing.T) {
 			},
 			wantErr: false,
 		},
-		{ // Test case #1 - Fail, error = cnfcertificationsuiteruns.cnf-certifications.openshift.io "" not found
+		{ // Test case #1 - Fail, error = cnfcertificationsuiteruns.best-practices-for-k8s.openshift.io "" not found
 			name: "Fail updating phase",
 			statusSetterFn: func(currStatus *cnfcertificationsv1alpha1.CnfCertificationSuiteRunStatus) {
 				currStatus.Phase = definitions.CnfCertificationSuiteRunStatusPhaseJobFinished
