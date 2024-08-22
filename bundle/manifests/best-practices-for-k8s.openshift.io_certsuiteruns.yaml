@@ -30,8 +30,7 @@ spec:
     name: v1alpha1
     schema:
       openAPIV3Schema:
-        description: CertsuiteRun is the Schema for the certsuiteruns
-          API
+        description: CertsuiteRun is the Schema for the certsuiteruns API
         properties:
           apiVersion:
             description: |-
@@ -51,8 +50,7 @@ spec:
           metadata:
             type: object
           spec:
-            description: CertsuiteRunSpec defines the desired state of
-              CertsuiteRun
+            description: CertsuiteRunSpec defines the desired state of CertsuiteRun
             properties:
               configMapName:
                 description: ConfigMapName holds the cnf certification suite yaml
@@ -91,8 +89,7 @@ spec:
             - timeout
             type: object
           status:
-            description: CertsuiteRunStatus defines the observed state
-              of CertsuiteRun
+            description: CertsuiteRunStatus defines the observed state of CertsuiteRun
             properties:
               cnfCertSuitePodName:
                 description: CnfCertSuitePodName holds the name of the pod where the

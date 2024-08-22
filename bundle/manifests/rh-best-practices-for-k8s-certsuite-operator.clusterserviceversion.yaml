@@ -32,7 +32,7 @@ metadata:
       ]
     capabilities: Basic Install
     console.openshift.io/plugins: '["certsuite-plugin"]'
-    createdAt: "2024-08-21T11:21:22Z"
+    createdAt: "2024-08-22T09:30:14Z"
     operators.operatorframework.io/builder: operator-sdk-v1.36.1
     operators.operatorframework.io/project_layout: go.kubebuilder.io/v4
   name: rh-best-practices-for-k8s-certsuite-operator.v0.0.1
@@ -41,9 +41,8 @@ spec:
   apiservicedefinitions: {}
   customresourcedefinitions:
     owned:
-    - description: CertsuiteRun is the Schema for the certsuiteruns
-        API
-      displayName: Cnf Certification Suite Run
+    - description: CertsuiteRun is the Schema for the certsuiteruns API
+      displayName: Certsuite Run
       kind: CertsuiteRun
       name: certsuiteruns.best-practices-for-k8s.openshift.io
       version: v1alpha1
