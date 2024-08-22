@@ -115,12 +115,12 @@ type CertsuiteReport struct {
 	// Important: Run "make" to regenerate code after modifying this file
 
 	//+kubebuilder:validation:Enum=pass;skip;fail;error
-	Verdict             string                                   `json:"verdict"`
-	OcpVersion          string                                   `json:"ocpVersion"`
-	CnfCertSuiteVersion string                                   `json:"cnfCertSuiteVersion"`
-	CnfTargets          CnfTargets                               `json:"cnfTargets,omitempty"`
+	Verdict             string                       `json:"verdict"`
+	OcpVersion          string                       `json:"ocpVersion"`
+	CnfCertSuiteVersion string                       `json:"cnfCertSuiteVersion"`
+	CnfTargets          CnfTargets                   `json:"cnfTargets,omitempty"`
 	Summary             CertsuiteReportStatusSummary `json:"summary"`
-	Results             []TestCaseResult                         `json:"results"`
+	Results             []TestCaseResult             `json:"results"`
 }
 
 type TargetResource map[string]string

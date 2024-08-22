@@ -114,4 +114,4 @@ jobs:
         run: ./scripts/ci/deploy.sh
 
       - name: Test CnfCertificationSuiteRun's validation
-        run: ./scripts/ci/cnfcertificationsuiterun_validation_test.sh
+        run: ./scripts/ci/certsuiterun_validation_test.sh
