@@ -10,17 +10,17 @@ webhooks:
     service:
       name: webhook-service
       namespace: system
-      path: /validate-cnf-certifications-redhat-com-v1alpha1-cnfcertificationsuiterun
+      path: /validate-best-practices-for-k8s-openshift-io-v1alpha1-certsuiterun
   failurePolicy: Fail
-  name: vcnfcertificationsuiterun.kb.io
+  name: vcertsuiterun.kb.io
   rules:
   - apiGroups:
-    - cnf-certifications.redhat.com
+    - best-practices-for-k8s.openshift.io
     apiVersions:
     - v1alpha1
     operations:
     - CREATE
     - UPDATE
     resources:
-    - cnfcertificationsuiteruns
+    - certsuiteruns
   sideEffects: None

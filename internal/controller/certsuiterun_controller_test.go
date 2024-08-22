@@ -18,14 +18,14 @@ import (
 )
 
 // Creates a reconciler with a fake client to mock API calls.
-func mockReconciler(objs []runtime.Object) *CnfCertificationSuiteRunReconciler {
+func mockReconciler(objs []runtime.Object) *CertsuiteRunReconciler {
 	s := scheme.Scheme
-	s.AddKnownTypes(cnfcertificationsv1alpha1.GroupVersion, &cnfcertificationsv1alpha1.CnfCertificationSuiteRun{})
+	s.AddKnownTypes(cnfcertificationsv1alpha1.GroupVersion, &cnfcertificationsv1alpha1.CertsuiteRun{})
 
-	runCR := &cnfcertificationsv1alpha1.CnfCertificationSuiteRun{}
+	runCR := &cnfcertificationsv1alpha1.CertsuiteRun{}
 	cl := fake.NewClientBuilder().WithRuntimeObjects(objs...).WithStatusSubresource(runCR).Build()
 
-	return &CnfCertificationSuiteRunReconciler{Client: cl, Scheme: s}
+	return &CertsuiteRunReconciler{Client: cl, Scheme: s}
 }
 
 func Test_getJobRunTimeThreshold(t *testing.T) {
@@ -118,7 +118,7 @@ func Test_getCertSuiteContainerExitStatus(t *testing.T) {
 	}
 }
 
-func TestCnfCertificationSuiteRunReconciler_waitForCertSuitePodToComplete(t *testing.T) {
+func TestCertsuiteRunReconciler_waitForCertSuitePodToComplete(t *testing.T) {
 	tests := []struct {
 		name               string
 		timeOut            time.Duration
@@ -167,23 +167,23 @@ func TestCnfCertificationSuiteRunReconciler_waitForCertSuitePodToComplete(t *tes
 	}
 }
 
-func TestCnfCertificationSuiteRunReconciler_updateStatus(t *testing.T) {
+func TestCertsuiteRunReconciler_updateStatus(t *testing.T) {
 	tests := []struct {
 		name                string
-		statusSetterFn      func(currStatus *cnfcertificationsv1alpha1.CnfCertificationSuiteRunStatus)
-		statusCheckerFn     func(currStatus *cnfcertificationsv1alpha1.CnfCertificationSuiteRunStatus) error
+		statusSetterFn      func(currStatus *cnfcertificationsv1alpha1.CertsuiteRunStatus)
+		statusCheckerFn     func(currStatus *cnfcertificationsv1alpha1.CertsuiteRunStatus) error
 		runCRNamespacedName types.NamespacedName
 		wantErr             bool
 	}{
 		{ // Test case #1 - Pass with exit status 0
 			name: "Pass when updating phase",
-			statusSetterFn: func(currStatus *cnfcertificationsv1alpha1.CnfCertificationSuiteRunStatus) {
-				currStatus.Phase = definitions.CnfCertificationSuiteRunStatusPhaseJobFinished
+			statusSetterFn: func(currStatus *cnfcertificationsv1alpha1.CertsuiteRunStatus) {
+				currStatus.Phase = definitions.CertsuiteRunStatusPhaseJobFinished
 			},
-			statusCheckerFn: func(currStatus *cnfcertificationsv1alpha1.CnfCertificationSuiteRunStatus) error {
-				if currStatus.Phase != definitions.CnfCertificationSuiteRunStatusPhaseJobFinished {
-					return fmt.Errorf("CnfCertificationSuiteRun status updated has failed. current status: %v, wanted status: %v",
-						currStatus.Phase, definitions.CnfCertificationSuiteRunStatusPhaseJobFinished)
+			statusCheckerFn: func(currStatus *cnfcertificationsv1alpha1.CertsuiteRunStatus) error {
+				if currStatus.Phase != definitions.CertsuiteRunStatusPhaseJobFinished {
+					return fmt.Errorf("CertsuiteRun status updated has failed. current status: %v, wanted status: %v",
+						currStatus.Phase, definitions.CertsuiteRunStatusPhaseJobFinished)
 				}
 				return nil
 			},
@@ -193,15 +193,15 @@ func TestCnfCertificationSuiteRunReconciler_updateStatus(t *testing.T) {
 			},
 			wantErr: false,
 		},
-		{ // Test case #1 - Fail, error = cnfcertificationsuiteruns.cnf-certifications.redhat.com "" not found
+		{ // Test case #1 - Fail, error = certsuiteruns.best-practices-for-k8s.openshift.io "" not found
 			name: "Fail updating phase",
-			statusSetterFn: func(currStatus *cnfcertificationsv1alpha1.CnfCertificationSuiteRunStatus) {
-				currStatus.Phase = definitions.CnfCertificationSuiteRunStatusPhaseJobFinished
+			statusSetterFn: func(currStatus *cnfcertificationsv1alpha1.CertsuiteRunStatus) {
+				currStatus.Phase = definitions.CertsuiteRunStatusPhaseJobFinished
 			},
-			statusCheckerFn: func(currStatus *cnfcertificationsv1alpha1.CnfCertificationSuiteRunStatus) error {
-				if currStatus.Phase != definitions.CnfCertificationSuiteRunStatusPhaseJobFinished {
-					return fmt.Errorf("CnfCertificationSuiteRun status updated has failed. current status: %v, wanted status: %v",
-						currStatus.Phase, definitions.CnfCertificationSuiteRunStatusPhaseJobFinished)
+			statusCheckerFn: func(currStatus *cnfcertificationsv1alpha1.CertsuiteRunStatus) error {
+				if currStatus.Phase != definitions.CertsuiteRunStatusPhaseJobFinished {
+					return fmt.Errorf("CertsuiteRun status updated has failed. current status: %v, wanted status: %v",
+						currStatus.Phase, definitions.CertsuiteRunStatusPhaseJobFinished)
 				}
 				return nil
 			},
@@ -210,13 +210,13 @@ func TestCnfCertificationSuiteRunReconciler_updateStatus(t *testing.T) {
 		},
 	}
 
-	runCR := &cnfcertificationsv1alpha1.CnfCertificationSuiteRun{
+	runCR := &cnfcertificationsv1alpha1.CertsuiteRun{
 		ObjectMeta: v1.ObjectMeta{
 			Name:      "cnf-run-sample",
 			Namespace: "certsuite-operator",
 		},
-		Status: cnfcertificationsv1alpha1.CnfCertificationSuiteRunStatus{
-			Phase: definitions.CnfCertificationSuiteRunStatusCertSuiteRunning,
+		Status: cnfcertificationsv1alpha1.CertsuiteRunStatus{
+			Phase: definitions.CertsuiteRunStatusCertSuiteRunning,
 		},
 	}
 	for _, tc := range tests {
@@ -225,12 +225,12 @@ func TestCnfCertificationSuiteRunReconciler_updateStatus(t *testing.T) {
 		// check whether an error has occurred if expected, and hasn't occurred if not expected
 		err := r.updateStatus(tc.runCRNamespacedName, tc.statusSetterFn)
 		if (err != nil) != tc.wantErr {
-			t.Errorf("CnfCertificationSuiteRunReconciler.updateStatus() error = %v, wantErr %v", err, tc.wantErr)
+			t.Errorf("CertsuiteRunReconciler.updateStatus() error = %v, wantErr %v", err, tc.wantErr)
 		}
 
 		// check if status was updated (if an error hasn't occurred)
 		if err == nil {
-			updatedRunCR := cnfcertificationsv1alpha1.CnfCertificationSuiteRun{}
+			updatedRunCR := cnfcertificationsv1alpha1.CertsuiteRun{}
 			err := r.Get(context.TODO(), tc.runCRNamespacedName, &updatedRunCR)
 			if err != nil {
 				t.Errorf("Error getting updated Run CR ")

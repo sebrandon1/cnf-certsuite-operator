@@ -1,20 +1,20 @@
-# permissions for end users to edit cnfcertificationsuiteruns.
+# permissions for end users to edit certsuiteruns.
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
   labels:
     app.kubernetes.io/name: clusterrole
-    app.kubernetes.io/instance: cnfcertificationsuiterun-editor-role
+    app.kubernetes.io/instance: certsuiterun-editor-role
     app.kubernetes.io/component: rbac
     app.kubernetes.io/created-by: certsuite-operator
     app.kubernetes.io/part-of: certsuite-operator
     app.kubernetes.io/managed-by: kustomize
-  name: cnfcertificationsuiterun-editor-role
+  name: certsuiterun-editor-role
 rules:
 - apiGroups:
-  - cnf-certifications.redhat.com
+  - best-practices-for-k8s.openshift.io
   resources:
-  - cnfcertificationsuiteruns
+  - certsuiteruns
   verbs:
   - create
   - delete
@@ -24,8 +24,8 @@ rules:
   - update
   - watch
 - apiGroups:
-  - cnf-certifications.redhat.com
+  - best-practices-for-k8s.openshift.io
   resources:
-  - cnfcertificationsuiteruns/status
+  - certsuiteruns/status
   verbs:
   - get

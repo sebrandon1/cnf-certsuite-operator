@@ -14,10 +14,10 @@ best practices for deployment on Red Hat OpenShift clusters are followed.
 
 ### How does it work?
 
-The Operator registers a CRD in the cluster: `CnfCertificationSuiteRun`.
+The Operator registers a CRD in the cluster: `CertsuiteRun`.
 
 In order to fire up the Certification Suite, the user must create
-a CnfCertificationSuiteRun CR, also informally referred as Run CR, which
+a CertsuiteRun CR, also informally referred as Run CR, which
 has to be created with a Config Map containing the cnf certification suites configuration,
 and a Secret containing the preflight suite credentials.
 **Note:** All resources mentioned above should be created in the operator's
@@ -171,9 +171,9 @@ Use our samples to test out the cnf certification operator, with the following c
 make deploy-samples
 ```
 
-**Note**: Current sample CnfCertificationSuiteRun CR configures
+**Note**: Current sample CertsuiteRun CR configures
 the Certification Suite to run the "observability" test suite only.
-It can be modified by changing manually the `labelsFilter` of the [sample CR](https://github.com/redhat-best-practices-for-k8s/certsuite-operator/blob/main/config/samples/cnf-certifications_v1alpha1_cnfcertificationsuiterun.yaml).
+It can be modified by changing manually the `labelsFilter` of the [sample CR](https://github.com/redhat-best-practices-for-k8s/certsuite-operator/blob/main/config/samples/cnf-certifications_v1alpha1_certsuiterun.yaml).
 
 ### How to customize the Certification Suite run
 
@@ -192,7 +192,7 @@ It can be modified by changing manually the `labelsFilter` of the [sample CR](ht
     under the `preflight_dockerconfig.json` key.\
     (see [Preflight Integration description](https://redhat-best-practices-for-k8s.github.io/certsuite-operator/runtime-env/#disable-intrusive-tests))
 
-    3. CnfCertificationSuiteRun CR:\
+    3. CertsuiteRun CR:\
     Containing the following Spec fields that has to be filled in:
         - **labelsFilter**: Wanted label filtering the cnf certification tests suite.
         - **logLevel**: Wanted log level of cnf certification tests suite run.\
@@ -214,7 +214,7 @@ It can be modified by changing manually the `labelsFilter` of the [sample CR](ht
         resources of all results. and not only compliant and non-compliant
         resources of failed test cases. This field is set to "false" by default.
 
-        See a [sample CnfCertificationSuiteRun CR](https://github.com/redhat-best-practices-for-k8s/certsuite-operator/blob/main/config/samples/cnf-certifications_v1alpha1_cnfcertificationsuiterun.yaml)
+        See a [sample CertsuiteRun CR](https://github.com/redhat-best-practices-for-k8s/certsuite-operator/blob/main/config/samples/cnf-certifications_v1alpha1_certsuiterun.yaml)
 
 2. Apply resources into the cluster
 
@@ -224,11 +224,11 @@ It can be modified by changing manually the `labelsFilter` of the [sample CR](ht
     ```sh
     oc apply -f /path/to/config/map.yaml
     oc apply -f /path/to/preflight/secret.yaml
-    oc apply -f /path/to/cnfCertificationSuiteRun.yaml
+    oc apply -f /path/to/certsuiteRun.yaml
     ```
 
     **Note**: The same config map and secret can be reused
-    by different CnfCertificationSuiteRun CR's.
+    by different CertsuiteRun CR's.
 
 ### Review results
 
@@ -246,18 +246,18 @@ certsuite-job-run-1                                 0/2     Completed   0       
 <!-- markdownlint-enable -->
 
 Check whether the pod creation and the cnf certification suites run were successful
-by checking CnfCertificationSuiteRun CR's status.
+by checking CertsuiteRun CR's status.
 In the successful case, expect to see the following status:
 
 ```sh
-$ oc get cnfcertificationsuiteruns.cnf-certifications.redhat.com -n certsuite-operator
+$ oc get certsuiteruns.cnf-certifications.redhat.com -n certsuite-operator
 NAME                              AGE   STATUS
-cnfcertificationsuiterun-sample   50m   CertSuiteFinished
+certsuiterun-sample   50m   CertSuiteFinished
 ```
 
 The status `CertSuiteFinished` means the Cert Suite pod has finished running
 all the test cases, so the results can be inspected in field `report` of the Run
-CR's (cnfcertificationsuiterun-sample) status subresource.
+CR's (certsuiterun-sample) status subresource.
 
 - Results: For every test case, contains its result and logs.
 If the the result is "skipped" or "failed" contains also the skip\failure reason.
@@ -301,7 +301,7 @@ Run the following command to ensure its creation:
 
 <!-- markdownlint-disable -->
 ```sh
-$ oc get cnfcertificationsuiteruns.cnf-certifications.redhat.com -n certsuite-operator cnfcertificationsuiterun-sample -o json | jq '.status.report.verdict'
+$ oc get certsuiteruns.cnf-certifications.redhat.com -n certsuite-operator certsuiterun-sample -o json | jq '.status.report.verdict'
 "pass"
 ```
 <!-- markdownlint-enable -->

@@ -11,7 +11,7 @@ while (is claim.json ready?) is (<color:red>no)
 endwhile (<color:green>yes)
 
 :parse claim.json;
-:update CnfCertificationSuiteRun;
+:update CertsuiteRun;
 stop
 
 @enduml

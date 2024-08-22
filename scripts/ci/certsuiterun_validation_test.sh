@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# This script is testing the CnfCertificationSuiteRun CR validation process.
+# This script is testing the CertsuiteRun CR validation process.
 # Invalid CRs are applied, and it is verified an error is returned.
 # Also a valid CR is applied, and it is verified no error is returned.
 #

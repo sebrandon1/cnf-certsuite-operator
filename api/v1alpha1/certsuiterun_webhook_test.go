@@ -20,9 +20,9 @@ import (
 	. "github.com/onsi/ginkgo/v2" //nolint:revive
 )
 
-var _ = Describe("CnfCertificationSuiteRun Webhook", func() {
+var _ = Describe("CertsuiteRun Webhook", func() {
 
-	Context("When creating CnfCertificationSuiteRun under Validating Webhook", func() {
+	Context("When creating CertsuiteRun under Validating Webhook", func() {
 		It("Should deny if a required field is empty", func() {
 
 			// TODO(user): Add your logic here

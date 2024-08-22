@@ -23,8 +23,8 @@ import (
 // EDIT THIS FILE!  THIS IS SCAFFOLDING FOR YOU TO OWN!
 // NOTE: json tags are required.  Any new fields you add must have json tags for the fields to be serialized.
 
-// CnfCertificationSuiteRunSpec defines the desired state of CnfCertificationSuiteRun
-type CnfCertificationSuiteRunSpec struct {
+// CertsuiteRunSpec defines the desired state of CertsuiteRun
+type CertsuiteRunSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
 
@@ -72,8 +72,8 @@ const (
 	StatusVerdictError = "error"
 )
 
-// CnfCertificationSuiteRunStatus defines the observed state of CnfCertificationSuiteRun
-type CnfCertificationSuiteRunStatus struct {
+// CertsuiteRunStatus defines the observed state of CertsuiteRun
+type CertsuiteRunStatus struct {
 	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
 
@@ -83,7 +83,7 @@ type CnfCertificationSuiteRunStatus struct {
 	// CnfCertSuitePodName holds the name of the pod where the CNF Certification Suite app is running.
 	CnfCertSuitePodName *string `json:"cnfCertSuitePodName,omitempty"`
 	// Report holds the results and information related to the CNF Certification Suite run.
-	Report *CnfCertificationSuiteReport `json:"report,omitempty"`
+	Report *CertsuiteReport `json:"report,omitempty"`
 }
 
 type CnfPod struct {
@@ -109,18 +109,18 @@ type CnfTargets struct {
 	HelmChartReleases []CnfResource `json:"helmChartReleases,omitempty"`
 }
 
-// CnfCertificationSuiteReport defines the desired state of CnfCertificationSuiteReport
-type CnfCertificationSuiteReport struct {
+// CertsuiteReport defines the desired state of CertsuiteReport
+type CertsuiteReport struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
 
 	//+kubebuilder:validation:Enum=pass;skip;fail;error
-	Verdict             string                                   `json:"verdict"`
-	OcpVersion          string                                   `json:"ocpVersion"`
-	CnfCertSuiteVersion string                                   `json:"cnfCertSuiteVersion"`
-	CnfTargets          CnfTargets                               `json:"cnfTargets,omitempty"`
-	Summary             CnfCertificationSuiteReportStatusSummary `json:"summary"`
-	Results             []TestCaseResult                         `json:"results"`
+	Verdict             string                       `json:"verdict"`
+	OcpVersion          string                       `json:"ocpVersion"`
+	CnfCertSuiteVersion string                       `json:"cnfCertSuiteVersion"`
+	CnfTargets          CnfTargets                   `json:"cnfTargets,omitempty"`
+	Summary             CertsuiteReportStatusSummary `json:"summary"`
+	Results             []TestCaseResult             `json:"results"`
 }
 
 type TargetResource map[string]string
@@ -140,7 +140,7 @@ type TestCaseResult struct {
 	TargetResources *TargetResources `json:"targetResources,omitempty"`
 }
 
-type CnfCertificationSuiteReportStatusSummary struct {
+type CertsuiteReportStatusSummary struct {
 	Total   int `json:"total"`
 	Passed  int `json:"passed"`
 	Skipped int `json:"skipped"`
@@ -151,27 +151,27 @@ type CnfCertificationSuiteReportStatusSummary struct {
 //+kubebuilder:object:root=true
 //+kubebuilder:subresource:status
 //+kubebuilder:printcolumn:name="Age",type="date",JSONPath=".metadata.creationTimestamp"
-//+kubebuilder:printcolumn:name="Status",type="string",JSONPath=".status.phase",description="CnfCertificationSuiteRun current status"
+//+kubebuilder:printcolumn:name="Status",type="string",JSONPath=".status.phase",description="CertsuiteRun current status"
 //+kubebuilder:printcolumn:name="Verdict",type="string",JSONPath=".status.report.verdict"
 
-// CnfCertificationSuiteRun is the Schema for the cnfcertificationsuiteruns API
-type CnfCertificationSuiteRun struct {
+// CertsuiteRun is the Schema for the certsuiteruns API
+type CertsuiteRun struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
-	Spec   CnfCertificationSuiteRunSpec   `json:"spec,omitempty"`
-	Status CnfCertificationSuiteRunStatus `json:"status,omitempty"`
+	Spec   CertsuiteRunSpec   `json:"spec,omitempty"`
+	Status CertsuiteRunStatus `json:"status,omitempty"`
 }
 
 //+kubebuilder:object:root=true
 
-// CnfCertificationSuiteRunList contains a list of CnfCertificationSuiteRun
-type CnfCertificationSuiteRunList struct {
+// CertsuiteRunList contains a list of CertsuiteRun
+type CertsuiteRunList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []CnfCertificationSuiteRun `json:"items"`
+	Items           []CertsuiteRun `json:"items"`
 }
 
 func init() {
-	SchemeBuilder.Register(&CnfCertificationSuiteRun{}, &CnfCertificationSuiteRunList{})
+	SchemeBuilder.Register(&CertsuiteRun{}, &CertsuiteRunList{})
 }

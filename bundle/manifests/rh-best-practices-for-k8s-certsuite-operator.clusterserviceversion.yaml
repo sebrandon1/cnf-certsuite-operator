@@ -5,17 +5,17 @@ metadata:
     alm-examples: |-
       [
         {
-          "apiVersion": "cnf-certifications.redhat.com/v1alpha1",
-          "kind": "CnfCertificationSuiteRun",
+          "apiVersion": "best-practices-for-k8s.openshift.io/v1alpha1",
+          "kind": "CertsuiteRun",
           "metadata": {
             "labels": {
               "app.kubernetes.io/created-by": "certsuite-operator",
-              "app.kubernetes.io/instance": "cnfcertificationsuiterun-sample",
+              "app.kubernetes.io/instance": "certsuiterun-sample",
               "app.kubernetes.io/managed-by": "kustomize",
-              "app.kubernetes.io/name": "cnfcertificationsuiterun",
+              "app.kubernetes.io/name": "certsuiterun",
               "app.kubernetes.io/part-of": "certsuite-operator"
             },
-            "name": "cnfcertificationsuiterun-sample",
+            "name": "certsuiterun-sample",
             "namespace": "certsuite-operator"
           },
           "spec": {
@@ -32,7 +32,7 @@ metadata:
       ]
     capabilities: Basic Install
     console.openshift.io/plugins: '["certsuite-plugin"]'
-    createdAt: "2024-08-09T12:07:19Z"
+    createdAt: "2024-08-22T09:30:14Z"
     operators.operatorframework.io/builder: operator-sdk-v1.36.1
     operators.operatorframework.io/project_layout: go.kubebuilder.io/v4
   name: rh-best-practices-for-k8s-certsuite-operator.v0.0.1
@@ -41,11 +41,10 @@ spec:
   apiservicedefinitions: {}
   customresourcedefinitions:
     owned:
-    - description: CnfCertificationSuiteRun is the Schema for the cnfcertificationsuiteruns
-        API
-      displayName: Cnf Certification Suite Run
-      kind: CnfCertificationSuiteRun
-      name: cnfcertificationsuiteruns.cnf-certifications.redhat.com
+    - description: CertsuiteRun is the Schema for the certsuiteruns API
+      displayName: Certsuite Run
+      kind: CertsuiteRun
+      name: certsuiteruns.best-practices-for-k8s.openshift.io
       version: v1alpha1
   description: Deploys Red Hat's Best Practices for Kubernetes Certification Suite
     Pod to run the Certification Test Suite on target resources.
@@ -75,6 +74,7 @@ spec:
           - consoleplugins
           verbs:
           - create
+          - delete
         - apiGroups:
           - authentication.k8s.io
           resources:
@@ -237,6 +237,7 @@ spec:
           - services
           verbs:
           - create
+          - delete
         - apiGroups:
           - ""
           resources:
@@ -264,10 +265,14 @@ spec:
           - deployments
           verbs:
           - create
+          - delete
+          - get
+          - list
+          - watch
         - apiGroups:
-          - cnf-certifications.redhat.com
+          - best-practices-for-k8s.openshift.io
           resources:
-          - cnfcertificationsuiteruns
+          - certsuiteruns
           verbs:
           - create
           - delete
@@ -277,15 +282,15 @@ spec:
           - update
           - watch
         - apiGroups:
-          - cnf-certifications.redhat.com
+          - best-practices-for-k8s.openshift.io
           resources:
-          - cnfcertificationsuiteruns/finalizers
+          - certsuiteruns/finalizers
           verbs:
           - update
         - apiGroups:
-          - cnf-certifications.redhat.com
+          - best-practices-for-k8s.openshift.io
           resources:
-          - cnfcertificationsuiteruns/status
+          - certsuiteruns/status
           verbs:
           - get
           - patch
@@ -319,18 +324,18 @@ spec:
     containerPort: 443
     deploymentName: certsuite-controller-manager
     failurePolicy: Fail
-    generateName: vcnfcertificationsuiterun.kb.io
+    generateName: vcertsuiterun.kb.io
     rules:
     - apiGroups:
-      - cnf-certifications.redhat.com
+      - best-practices-for-k8s.openshift.io
       apiVersions:
       - v1alpha1
       operations:
       - CREATE
       - UPDATE
       resources:
-      - cnfcertificationsuiteruns
+      - certsuiteruns
     sideEffects: None
     targetPort: 9443
     type: ValidatingAdmissionWebhook
-    webhookPath: /validate-cnf-certifications-redhat-com-v1alpha1-cnfcertificationsuiterun
+    webhookPath: /validate-best-practices-for-k8s-openshift-io-v1alpha1-certsuiterun
