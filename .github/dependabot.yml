@@ -19,7 +19,7 @@ updates:
         dependency-type: "development"
       prod-dependencies:
         dependency-type: "production"
-  - package-ecosystem: weekly
+  - package-ecosystem: docker
     directory: /
     schedule:
       interval: weekly
