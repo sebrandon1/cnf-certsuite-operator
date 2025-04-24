@@ -13,7 +13,7 @@ env:
 jobs:
   lint:
     name: Run Linters and Vet
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     env:
       SHELL: /bin/bash
 
@@ -82,7 +82,7 @@ jobs:
 
   test:
     name: Build, install and test operator in a Kind cluster
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     env:
       SHELL: /bin/bash
       KUBECONFIG: '/home/runner/.kube/config'

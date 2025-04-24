@@ -10,7 +10,7 @@ on:
 jobs:
   validation:
     name: Test CnfCertificationSuiteRun's validation
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     env:
       SHELL: /bin/bash
 
