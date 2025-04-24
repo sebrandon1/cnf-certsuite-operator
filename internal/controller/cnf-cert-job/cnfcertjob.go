@@ -111,14 +111,14 @@ func newInitialJobPod() *corev1.Pod {
 
 func WithPodName(podName string) func(*corev1.Pod) error {
 	return func(p *corev1.Pod) error {
-		p.ObjectMeta.Name = podName
+		p.Name = podName
 		return nil
 	}
 }
 
 func WithNamespace(namespace string) func(*corev1.Pod) error {
 	return func(p *corev1.Pod) error {
-		p.ObjectMeta.Namespace = namespace
+		p.Namespace = namespace
 		return nil
 	}
 }
@@ -242,7 +242,7 @@ func WithOwnerReference(ownerUID types.UID, ownerName, ownerKind, ownerAPIVersio
 			Name:       ownerName,
 			UID:        ownerUID,
 		}
-		p.ObjectMeta.OwnerReferences = []metav1.OwnerReference{*ownerReference}
+		p.OwnerReferences = []metav1.OwnerReference{*ownerReference}
 		return nil
 	}
 }
