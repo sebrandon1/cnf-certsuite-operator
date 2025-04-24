@@ -123,17 +123,11 @@ test: manifests generate fmt vet envtest ## Run tests.
 test-e2e:
 	go test ./test/e2e/ -v -ginkgo.v
 
-GOLANGCI_LINT = $(shell pwd)/bin/golangci-lint
-GOLANGCI_LINT_VERSION ?= v1.64.5
-golangci-lint:
-	@[ -f $(GOLANGCI_LINT) ] || { \
-	set -e ;\
-	curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(shell dirname $(GOLANGCI_LINT)) $(GOLANGCI_LINT_VERSION) ;\
-	}
+
 
 .PHONY: lint
-lint: golangci-lint ## Run all linters
-	$(GOLANGCI_LINT) config verify && $(GOLANGCI_LINT) run --timeout 10m0s
+lint: ## Run all linters
+	golangci-lint run --timeout 10m0s
 	checkmake --config=.checkmake Makefile
 	hadolint Dockerfile
 	# shfmt -d *.sh script
