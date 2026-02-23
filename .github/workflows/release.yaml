@@ -12,7 +12,7 @@ on:
         description: 'Version (Semating Versioning) for the new release. E.g: 0.0.1'
         required: true
         default: '0.0.1'
-
+permissions: read-all
 env:
   REGISTRY: quay.io
   REGISTRY_USER: redhat-best-practices-for-k8s
