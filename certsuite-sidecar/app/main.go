@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"os"
+	"path/filepath"
 	"time"
 
 	cnfcertificationsv1alpha1 "github.com/redhat-best-practices-for-k8s/certsuite-operator/api/v1alpha1"
@@ -33,13 +34,13 @@ func handleClaimFile(k8sClient client.Client) {
 	runCRname := os.Getenv(runCrNameEnvVar)
 
 	claimFolder := os.Getenv(sideCarResultsFolderEnvVar)
-	claimFilePath := claimFolder + "/" + claimFileName
+	claimFilePath := filepath.Join(claimFolder, claimFileName)
 
 	logrus.Infof("Claim file: %v", claimFilePath)
 	logrus.Infof("CertsuiteRun CR: %s/%s", namespace, runCRname)
 
 	for {
-		_, err := os.Stat(claimFilePath)
+		_, err := os.Stat(claimFilePath) //nolint:gosec // G703 - path from trusted env var in operator-managed pod
 		if os.IsNotExist(err) {
 			logrus.Warnf("Claim file not found yet. Waiting 5 secs...")
 			time.Sleep(multiplier * time.Second)
@@ -51,7 +52,7 @@ func handleClaimFile(k8sClient client.Client) {
 		time.Sleep(multiplier * time.Second)
 
 		logrus.Infof("Claim file found at %v", claimFilePath)
-		claimBytes, err := os.ReadFile(claimFilePath)
+		claimBytes, err := os.ReadFile(claimFilePath) //nolint:gosec // G703 - path from trusted env var in operator-managed pod
 		if err != nil {
 			logrus.Fatalf("Failed to read claim file %s: %v", claimFilePath, err)
 		}
@@ -104,8 +105,8 @@ func main() {
 		logrus.Fatalf("failed to add cnfcertificationsv1alpha1 to scheme: %v", err)
 	}
 
-	kubeConfigFile := os.Getenv("HOME") + "/.kube/config"
-	_, err = os.Stat(kubeConfigFile)
+	kubeConfigFile := filepath.Join(os.Getenv("HOME"), ".kube", "config")
+	_, err = os.Stat(kubeConfigFile) //nolint:gosec // G703 - path from $HOME env var
 	if err != nil {
 		kubeConfigFile = ""
 	}
